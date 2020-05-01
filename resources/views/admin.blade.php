@@ -13,8 +13,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in as Admin!
+                    You are logged in as Admin!<br>
+                    <a class="btn btn-success" href="{{route('companies')}}">All Companies</a>
+                    <a class="btn btn-primary" href="{{route('create-company')}}">Create Company</a>
                 </div>
             </div>
         </div>
