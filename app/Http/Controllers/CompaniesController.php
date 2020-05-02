@@ -41,24 +41,34 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        $this->validate($request,[
             'name'=> 'required',
             'email'=>'required',
             'website'=>'nullable',
-            "image"  => "dimensions:min_width=100,min_height=100",
-            ]);
-        // dd($request->all());
-        $input = $request->all();
-  
-        $imageName = time().'.'.$request->image->extension();  
-   
-        $request->image->move(public_path('images/logos'), $imageName);
+            'image'  => 'dimensions:min_width=100,min_height=100',
+        ]);
+        
+        if($request->hasFile('image')){
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $filenameToStore = $filename.'_'.time().'.'.$extension;
+            $path= $request->image->move(public_path('images/logos'), $filenameToStore);
+        }else{
+            $filenameToStore= 'noImage.jpg';
+        }
+        
+        $company = new Company;
+        $company->name= $request->input('name');
+        $company->email= $request->input('email');
+        $company->website= $request->input('website');
+        $company->logo= $filenameToStore;
+        $company->save();
 
-        $input['logo'] = $imageName;
 
-        $company = Company::create($input);
 
-        $msg = 'New Art Added Successfully';
+        $msg = 'New Company Added Successfully';
        
         return redirect()->route('companies')->with('success' , $msg);
 
@@ -71,9 +81,11 @@ class CompaniesController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public function show($id)
     {
         //
+        
+        
     }
 
     /**
@@ -82,9 +94,10 @@ class CompaniesController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function edit(Company $company)
+    public function edit($id)
     {
-        //
+        $company = Company::find($id);
+        return view('companies.edit')->with('company', $company);
     }
 
     /**
@@ -94,9 +107,40 @@ class CompaniesController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
-        //
+
+        $this->validate($request,[
+            'name'=> 'required',
+            'email'=>'required',
+            'website'=>'nullable',
+            'logo'  => 'dimensions:min_width=100,min_height=100',
+        ]);
+        
+        if($request->hasFile('image')){
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $filenameToStore = $filename.'_'.time().'.'.$extension;
+            $path= $request->image->move(public_path('images/logos'), $filenameToStore);
+        }
+        
+        $company = Company::find($id);
+        $company->name= $request->input('name');
+        $company->email= $request->input('email');
+        $company->website= $request->input('website');
+        if($request->hasFile('image')){
+            $company->logo = $filenameToStore;
+        }
+        $company->save();
+
+        $msg = 'New Art Added Successfully';
+       
+        return redirect()->route('companies')->with('success' , $msg);
+
+
+        // Company::where('id', $id)->update($request->all());
+        // return redirect('/companies');
     }
 
     /**
@@ -105,8 +149,11 @@ class CompaniesController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy($id)
     {
-        //
+        Company::destroy($id);
+        return redirect()->back();
+
+
     }
 }

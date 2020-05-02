@@ -4,7 +4,9 @@
     position: relative;
     text-align: center;
 }
-
+th , tr , td {
+  text-align: center;
+}
 #header h1 {
     display: inline;
 }
@@ -31,38 +33,41 @@
                   <div  id="header">
                     <div id="buttons">
                     </div>
-                    <h1>Companies</h1>
+                    <h1>Employees</h1>
                     <div id="logo">
-                      <a href="{{route('create-company')}} " class="btn btn-primary btn-bg m-0">Add Company</a>  
+                      <a href="{{route('create-employee')}} " class="btn btn-primary btn-bg m-0">Add Employee</a>  
                     </div>
                   </div>
                   <table class="table table-striped table-responsive-md btn-table">
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Logo</th>
-                        <th>Name</th>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
                         <th>Email</th>
-                        <th>Website</th>
+                        <th>Phone</th>
+                        <th>Company</th>
                         <th style="text-align:center">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($companies as $company)
+                    @foreach ($emps as $emp)
                       <tr>
-                        <th scope="row">{{$company->id}}</th>
-                        <th><img src="{{asset('images/logos/'.$company->logo.'')}}"style=" border-radius:50%" height="70px" width="70px"></th>
-                        <td>{{$company->name}}</td>
-                        <td>{{$company->email}}</td>
-                        <td>{{$company->website}}</td>
-                        <td>
+                        <th scope="row">{{$emp->id}}</th>
+                        
+                        <td>{{$emp->firstname}}</td>
+                        <td>{{$emp->lastname}}</td>
+                        <td>{{$emp->email}}</td>
+                        <td>{{$emp->phone}}</td>
+                        <td>{{$emp->company->name}}</td>
+                        <td style="text-align:center">
                           {{-- <a href="{{ action('CompaniesController@destroy', ['id' => $company->id]) }}" class="btn btn-danger btn-sm m-0" >Delete</a> --}}
                           
-                          <form action="{{ Route('delete-company', [$company->id]) }}" method="post">
+                          <form action="{{ Route('delete-employee', [$emp->id]) }}" method="post">
                             <input class="btn btn-default" type="hidden" value="Delete" />
                             @method('delete')
                             @csrf 
-                            <a href="/admin/company/{{$company->id}}" class="btn btn-success btn-sm m-0">Edit</a>
+                            <a href="/admin/employee/{{$emp->id}}" class="btn btn-success btn-sm m-0">Edit</a>
                             <button class="btn btn-danger btn-sm m-0" type="submit">Delete</button>               
 
                         </form>

@@ -28,12 +28,12 @@
                       </div>
 
                         <div class="form-group">
-                            <label for="image">image</label>
+                            <label for="image">Logo</label><br>
                             <input name="image" type="file" >
                         </div>	
                      
-                        <div class="form-group button">
-                            <button type="submit" class="btn ">Publish</button>
+                        <div  style="float:right; padding-top:10px;" class="form-group button">
+                            <button type="submit" class="btn btn-primary">Publish</button>
                         </div>
                   </form>
 

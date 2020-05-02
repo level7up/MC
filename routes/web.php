@@ -35,7 +35,16 @@ Route::prefix('admin')->group(function(){
     Route::get('company/create', 'CompaniesController@create')->name('create-company');
     Route::post('company', 'CompaniesController@store')->name('store-company');
     Route::delete('company/{id}', 'CompaniesController@destroy')->name('delete-company');
-    Route::get('company/{id}', 'CompaniesController@show')->name('show-company');
+    Route::get('company/{id}', 'CompaniesController@edit')->name('edit-company');
+    Route::put('company/{id}', 'CompaniesController@update')->name('update-company');
+
+    // Employees
+    Route::get('employees', 'EmployeesController@index')->name('employees');
+    Route::get('employee/create', 'EmployeesController@create')->name('create-employee');
+    Route::post('employee', 'EmployeesController@store')->name('store-employee');
+    Route::delete('employee/{id}', 'EmployeesController@destroy')->name('delete-employee');
+    Route::get('employee/{id}', 'EmployeesController@edit')->name('edit-employee');
+    Route::put('employee/{id}', 'EmployeesController@update')->name('update-employee');
 
 });
 

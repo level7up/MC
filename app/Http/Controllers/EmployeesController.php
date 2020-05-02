@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Company;
 use Illuminate\Http\Request;
 
 class EmployeesController extends Controller
@@ -14,7 +15,10 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        //
+        $emps= Employee::paginate(10);
+        $companies = Company::all();
+
+        return view('employees.index', compact('companies', 'emps'));
     }
 
     /**
@@ -24,7 +28,8 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        //
+        $companies = Company::all();
+        return view('employees.create',compact('companies'));
     }
 
     /**
@@ -35,7 +40,30 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $this->validate($request,[
+            'firstname'=> 'required',
+            'lastname'=> 'required',
+            'email'=>'required',
+            'phone'=>'nullable',
+            'company_id'=>'required'
+        ]);
+        $emp = new Employee;
+
+        $emp->firstname =$request->input('firstname');
+        $emp->lastname =$request->input('lastname');
+        $emp->firstname =$request->input('firstname');
+        $emp->email =$request->input('email');
+        $emp->phone =$request->input('phone');
+        $emp->company_id =$request->input('company_id');
+
+        $emp->save();
+
+        $msg = 'Success';
+
+        return redirect()->route('employees')->with('success' , $msg);
+
+
     }
 
     /**
@@ -55,9 +83,11 @@ class EmployeesController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee)
+    public function edit($id)
     {
-        //
+        $emp = Employee::find($id);
+        $companies = Company::all();
+        return view('employees.edit', compact('companies', 'emp'));
     }
 
     /**
@@ -67,9 +97,30 @@ class EmployeesController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'firstname'=> 'required',
+            'lastname'=> 'required',
+            'email'=>'required',
+            'phone'=>'nullable',
+            'company_id'=>'required'
+        ]);
+
+        $emp = Employee::find($id);
+
+        $emp->firstname =$request->input('firstname');
+        $emp->lastname =$request->input('lastname');
+        $emp->firstname =$request->input('firstname');
+        $emp->email =$request->input('email');
+        $emp->phone =$request->input('phone');
+        $emp->company_id =$request->input('company_id');
+
+        $emp->save();
+
+        $msg = 'Success';
+        return redirect()->route('employees')->with('success' , $msg);
+
     }
 
     /**
@@ -78,8 +129,11 @@ class EmployeesController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy($id)
     {
         //
+        Employee::destroy($id);
+        return redirect()->back();
+
     }
 }

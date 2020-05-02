@@ -16,4 +16,8 @@ php artisan migrate
  php artisan serve
  ``` 
  open [http://127.0.0.1:8000/admin/login](http://127.0.0.1:8000/admin/login).
+ 
+
+ ## Trello 
+ [https://trello.com/b/FubWIHcn](Trello)
 
