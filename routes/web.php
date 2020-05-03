@@ -26,9 +26,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::prefix('admin')->group(function(){
-    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-    Route::get('/', 'AdminController@index')->name('admin.dashboard');
+    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin-login');
+    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin-login-submit');
+    Route::get('/', 'AdminController@index')->name('admin-dashboard');
     // Route::resource('companies', 'CompaniesController');
     // Companies
     Route::get('companies', 'CompaniesController@index')->name('companies');
@@ -47,5 +47,8 @@ Route::prefix('admin')->group(function(){
     Route::put('employee/{id}', 'EmployeesController@update')->name('update-employee');
 
 });
+
+Route::get('send/{id}', 'NotificationController@sendNotification')->name('notification');
+Route::get('send/', 'NotificationController@sendNotificationForm')->name('notification-form');
 
 

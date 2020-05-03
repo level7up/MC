@@ -14,8 +14,16 @@
                         </div>
                     @endif
                     You are logged in as Admin!<br>
-                    <a class="btn btn-success" href="{{route('companies')}}">All Companies</a>
-                    <a class="btn btn-primary" href="{{route('create-company')}}">Create Company</a>
+                    <div>
+                        <label>Companies</label>
+                        <a class="btn btn-success" href="{{route('companies')}}">All Companies</a>
+                        <a class="btn btn-primary" href="{{route('create-company')}}">Create Company</a>
+                    </div>
+                    <div style="padding-top:10px">
+                        <label>Employees</label>
+                        <a class="btn btn-success" href="{{route('employees')}}">All Employees</a>
+                        <a class="btn btn-primary" href="{{route('create-employee')}}">Add Employee</a>
+                    </div>
                 </div>
             </div>
         </div>

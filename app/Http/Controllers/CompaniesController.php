@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Str;
+use Auth;
+use App\User;
+use App\Admin;
+use Notification;
+
+use App\Notifications\MyFirstNotification;
 
 class CompaniesController extends Controller
 {
@@ -66,8 +72,33 @@ class CompaniesController extends Controller
         $company->logo= $filenameToStore;
         $company->save();
 
+        $admins = Admin::all();
+
+        foreach ($admins as $admin){
+            $details = [
+                'To' => $admin->email,
+
+                'greeting' => 'Hello '.$admin->name.'',
+
+                'body' => 'New Company Registerd By name: '. $company->name .'',
+
+                'thanks' => 'Thank you...',
+
+                'actionText' => 'View My Site',
+
+                'actionURL' => url('/'),
+
+            ];
 
 
+
+            Notification::send($admin, new MyFirstNotification($details));
+
+
+
+        }
+
+        
         $msg = 'New Company Added Successfully';
        
         return redirect()->route('companies')->with('success' , $msg);
