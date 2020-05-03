@@ -8,7 +8,7 @@
 ```bash
 php artisan migrate
 ```
- or import the `/database/data.sql` file in your DB 
+ or import the `database/codersea.sql` file in your DB 
 
 ## setup admin
  add admin data to admin table using tinker
