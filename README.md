@@ -23,5 +23,5 @@ php artisan migrate
  
 
  ## Trello 
- [https://www.trello.com/b/FubWIHcn](Trello)
+ [Trello](https://www.trello.com/b/FubWIHcn)
 
